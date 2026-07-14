@@ -105,6 +105,7 @@
   .ann .d8{font-size:.7rem;font-weight:800;color:var(--mist);text-transform:uppercase;letter-spacing:.04em}
   .ann h3{font-size:.92rem;margin:2px 0}
   .ann p{font-size:.84rem;color:var(--slate)}
+  .ann-btn{display:inline-block;margin-top:8px;background:var(--brand);color:#fff;font-size:.76rem;font-weight:800;padding:7px 16px;border-radius:999px}
 
   .empty{text-align:center;color:var(--mist);font-size:.85rem;padding:26px 0}
 
@@ -150,7 +151,7 @@
 </header>
 
 <div class="announce" id="announceBar" style="display:none">
-  <span class="tag">NEW</span><span id="announceText"></span>
+  <span class="tag">NEW</span><span id="announceText"></span><a id="announceLink" href="#" target="_blank" rel="noopener" style="display:none;font-weight:800;color:var(--brand-2);white-space:nowrap;margin-left:auto">Open →</a>
 </div>
 
 <nav class="tabs" id="tabs">
@@ -173,7 +174,7 @@
       <div class="info-card"><h3>📅 Dates</h3><p>23rd – 26th September 2026 (Pre-conference workshop: 22nd – 23rd)</p></div>
       <div class="info-card"><h3>📍 Venue</h3><p>Modular Theater, Abubakar Tafawa Balewa University Teaching Hospital (ATBUTH), Bauchi</p></div>
       <div class="info-card"><h3>🎯 Theme</h3><p id="confTheme">Advancing Paediatric Surgical Care in Nigeria: Innovation and Best Practices (sub-themes: Paediatric Trauma; Paediatric Surgical Infections)</p></div>
-      <div class="info-card"><h3>☎️ Enquiries</h3><p id="confContact">Prof. Kefas John Bwala, LOC Chairman — 0806 211 2679</p></div>
+      <div class="info-card"><h3>☎️ Enquiries</h3><p id="confContact">Dr. Kefas John Bwala, LOC Chairman — 0806 211 2679</p></div>
     </div>
     <p class="tip">💡 Tip: tap your browser's menu and choose <strong>"Add to Home Screen"</strong> to install this as an app. Once installed it keeps working even with a weak signal inside the venue.</p>
   </section>
@@ -265,10 +266,10 @@
    Abstracts:    code | title | authors | body   (body = the full abstract text; card expands on tap)
    Attendees:    name | institution   (names only — keep emails in a separate PRIVATE sheet)
    Info:         heading | details
-   Announcements: date | title | message   (newest row at the bottom; latest shows as the top banner too)
+   Announcements: date | title | message | link | linktext   (link adds a button, e.g. a feedback form; newest row at the bottom; latest shows as the top banner too)
    Note: Info rows with heading "Theme" or "Enquiries" also fill the Home tab cards.
 ===================================================================== */
-const SHEET_ID = "1UIijnGiRUM5qIN9d567Z7-lXYCvBmTpwSUItBtsFyS4";   // <-- paste your Google Sheet ID here
+const SHEET_ID = "";   // <-- paste your Google Sheet ID here
 
 /* ---------- Sample data (replaced by the Sheet when connected) ---------- */
 const SAMPLE = {
@@ -299,7 +300,7 @@ const SAMPLE = {
   Info: [
     {heading:"Venue", details:"Modular Theater, Abubakar Tafawa Balewa University Teaching Hospital (ATBUTH), Bauchi."},
     {heading:"Theme", details:"Advancing Paediatric Surgical Care in Nigeria: Innovation and Best Practices. Sub-themes: Paediatric Trauma; Paediatric Surgical Infections."},
-    {heading:"Enquiries", details:"Prof. Kefas John Bwala, LOC Chairman — 0806 211 2679"},
+    {heading:"Enquiries", details:"Dr. Kefas John Bwala, LOC Chairman — 0806 211 2679"},
     {heading:"Pre-conference Workshop", details:"Transanal Pull-through for Hirschsprung Disease — 22nd & 23rd September, Modular Theater, ATBUTH. Workshop fee: N50,000."},
     {heading:"Arriving by Air", details:"Fly into Sir Abubakar Tafawa Balewa International Airport, Bauchi. Taxis are available at arrivals (agree the fare before you set off); the drive to ATBUTH takes roughly 30-40 minutes. LOC airport pickup and shuttle arrangements will be announced here."},
     {heading:"Getting to the Venue", details:"The Modular Theater is within the ATBUTH main complex, Bauchi. Enter through the main hospital gate and follow the conference signage - ushers will direct delegates on conference days."},
@@ -308,7 +309,7 @@ const SAMPLE = {
     {heading:"Registration Fees", details:"Early bird (until 31st July): Fellows N70,000 | Residents N40,000 | Nurses & Others N30,000. From 1st August: Fellows N90,000 | Residents N50,000 | Nurses & Others N40,000."},
     {heading:"Payment Details", details:"Association of Paediatric Surgeons of Nigeria — Union Bank — Account No. 0237243327."},
     {heading:"Yankari Excursion", details:"Visit to Yankari Game Reserve on 26th September, 2026. Details at the secretariat."},
-    {heading:"Leadership", details:"Prof. Roland I. Osuoji (APSON President, LASUTH Lagos) | Prof. Kefas John Bwala (LOC Chairman, ATBUTH Bauchi) | Prof. Auwal Abubakar (LOC Co-Chairman, MAUTH Yola) | Dr. Aminu M. Umar (LOC Secretary, ATBUTH Bauchi)."},
+    {heading:"Leadership", details:"Prof. Roland I. Osuoji (APSON President, LASUTH Lagos) | Dr. Kefas John Bwala (LOC Chairman, ATBUTH Bauchi) | Prof. Auwal Abubakar (LOC Co-Chairman, MAUTH Yola) | Dr. Aminu M. Umar (LOC Secretary, ATBUTH Bauchi)."},
     {heading:"Recommended Hotels", details:"A list of partner hotels in Bauchi will be published here."}
   ],
   Executives: [
@@ -318,7 +319,7 @@ const SAMPLE = {
     {name:"Executive name here", position:"Treasurer", photo:""}
   ],
   LOC: [
-    {name:"Prof. Kefas John Bwala", position:"LOC Chairman", institution:"ATBUTH, Bauchi", photo:"loc/bwala.jpg"},
+    {name:"Dr. Kefas John Bwala", position:"LOC Chairman", institution:"ATBUTH, Bauchi", photo:"loc/bwala.jpg"},
     {name:"Prof. Auwal Abubakar", position:"LOC Co-Chairman", institution:"MAUTH, Yola", photo:"loc/abubakar.jpg"},
     {name:"Dr. Aminu M. Umar", position:"LOC Secretary", institution:"ATBUTH, Bauchi", photo:"loc/umar.jpg"}
   ],
@@ -453,13 +454,20 @@ function renderDelegates(filter=""){
 function renderAnnounce(){
   const rows = DATA.Announcements || [];
   const bar = document.getElementById("announceBar");
-  if(rows.length){ bar.style.display = "flex"; document.getElementById("announceText").textContent = rows[rows.length-1].message || rows[rows.length-1].title || ""; }
-  else bar.style.display = "none";
+  const al = document.getElementById("announceLink");
+  if(rows.length){
+    const last = rows[rows.length-1];
+    bar.style.display = "flex";
+    document.getElementById("announceText").textContent = last.message || last.title || "";
+    if(last.link){ al.href = last.link; al.textContent = last.linktext || "Open →"; al.style.display = "inline"; }
+    else al.style.display = "none";
+  } else bar.style.display = "none";
   document.getElementById("newsList").innerHTML = rows.length ? [...rows].reverse().map(r => `
     <div class="ann">
       ${r.date ? `<div class="d8">${esc(r.date)}</div>` : ""}
       ${r.title ? `<h3>${esc(r.title)}</h3>` : ""}
       <p>${esc(r.message)}</p>
+      ${r.link ? `<a class="ann-btn" href="${esc(r.link)}" target="_blank" rel="noopener">${esc(r.linktext || "Open link")}</a>` : ""}
     </div>`).join("") : `<p class="empty">No announcements yet — check back during the conference.</p>`;
 }
 
