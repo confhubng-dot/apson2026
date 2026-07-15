@@ -231,23 +231,7 @@
 <!-- ===== Sponsor slideshow ===== -->
 <aside class="sponsor" aria-label="Sponsor">
   <div class="sp-label">Sponsorship opportunity — your brand could be here</div>
-  <div class="sp-track" id="spTrack">
-    <div class="slide on">
-      <div class="t">Your brand, on <b>every delegate's phone</b></div>
-      <div class="d">The official APSON 2026 app is open for a headline sponsor — visible on every screen, all conference long.</div>
-      <div class="sp-btns"><a class="sp-btn" href="https://confhub.ng/#contact" target="_blank" rel="noopener">Become the sponsor</a></div>
-    </div>
-    <div class="slide">
-      <div class="t">Reach paediatric surgeons all week</div>
-      <div class="d">Fellows, residents and nurses from across Nigeria see this space every time they check the programme.</div>
-      <div class="sp-btns"><a class="sp-btn" href="https://confhub.ng/#contact" target="_blank" rel="noopener">Contact ConfHub</a></div>
-    </div>
-    <div class="slide">
-      <div class="t"><b>ConfHub</b> — smart event apps for conferences</div>
-      <div class="d">Live agenda, abstracts and announcements — built for Nigerian scientific meetings.</div>
-      <div class="sp-btns"><a class="sp-btn" href="https://confhub.ng" target="_blank" rel="noopener">Visit confhub.ng</a></div>
-    </div>
-  </div>
+  <div class="sp-track" id="spTrack"></div>
   <div class="sp-dots" id="spDots"></div>
 </aside>
 
@@ -267,9 +251,10 @@
    Attendees:    name | institution   (names only — keep emails in a separate PRIVATE sheet)
    Info:         heading | details
    Announcements: date | title | message | link | linktext   (link adds a button, e.g. a feedback form; newest row at the bottom; latest shows as the top banner too)
+   Sponsors:     label | title | message | buttontext | link   (one row per slide; label on any row sets the strip caption; empty tab hides the sponsor bar)
    Note: Info rows with heading "Theme" or "Enquiries" also fill the Home tab cards.
 ===================================================================== */
-const SHEET_ID = "1UIijnGiRUM5qIN9d567Z7-lXYCvBmTpwSUItBtsFyS4";   // <-- paste your Google Sheet ID here
+const SHEET_ID = "";   // <-- paste your Google Sheet ID here
 
 /* ---------- Sample data (replaced by the Sheet when connected) ---------- */
 const SAMPLE = {
@@ -323,6 +308,11 @@ const SAMPLE = {
     {name:"Prof. Auwal Abubakar", position:"LOC Co-Chairman", institution:"MAUTH, Yola", photo:"loc/abubakar.jpg"},
     {name:"Dr. Aminu M. Umar", position:"LOC Secretary", institution:"ATBUTH, Bauchi", photo:"loc/umar.jpg"}
   ],
+  Sponsors: [
+    {label:"Sponsorship opportunity — your brand could be here", title:"Your brand, on every delegate's phone", message:"The official APSON 2026 app is open for a headline sponsor — visible on every screen, all conference long.", buttontext:"Become the sponsor", link:"https://confhub.ng/#contact"},
+    {title:"Reach paediatric surgeons all week", message:"Fellows, residents and nurses from across Nigeria see this space every time they check the programme.", buttontext:"Contact ConfHub", link:"https://confhub.ng/#contact"},
+    {title:"ConfHub — smart event apps for conferences", message:"Live agenda, abstracts and announcements — built for Nigerian scientific meetings.", buttontext:"Visit confhub.ng", link:"https://confhub.ng"}
+  ],
   Announcements: [
     {date:"", title:"Abstract Deadline", message:"Submit your abstract to apsonconferencebauchi2026@gmail.com on or before 15th July, 2026. Acceptance notifications by 31st July."}
   ],
@@ -332,7 +322,7 @@ const SAMPLE = {
 };
 
 /* ---------- Data loading: Google Sheet (via opensheet.elk.sh) with offline cache ---------- */
-const TABS = ["Agenda","Speakers","Executives","LOC","Abstracts","Info","Announcements","Attendees"];
+const TABS = ["Agenda","Speakers","Executives","LOC","Abstracts","Info","Announcements","Attendees","Sponsors"];
 let DATA = JSON.parse(localStorage.getItem("ap26-data") || "null") || SAMPLE;
 
 async function refresh(){
@@ -471,7 +461,7 @@ function renderAnnounce(){
     </div>`).join("") : `<p class="empty">No announcements yet — check back during the conference.</p>`;
 }
 
-function renderAll(){ renderAgenda(); renderSpeakers(); renderAbstracts(document.getElementById("absSearch").value); renderInfo(); renderAnnounce(); renderExecs(); renderDelegates(document.getElementById("delSearch").value); }
+function renderAll(){ renderAgenda(); renderSpeakers(); renderAbstracts(document.getElementById("absSearch").value); renderInfo(); renderAnnounce(); renderExecs(); renderDelegates(document.getElementById("delSearch").value); renderSponsors(); }
 
 /* ---------- Tabs ---------- */
 document.getElementById("tabs").addEventListener("click", e => {
@@ -484,17 +474,39 @@ document.getElementById("agSearch").addEventListener("input", () => renderAgenda
 document.getElementById("delSearch").addEventListener("input", e => renderDelegates(e.target.value));
 
 /* ---------- Sponsor slideshow ---------- */
-const slides = [...document.querySelectorAll(".slide")];
-const dotsBox = document.getElementById("spDots");
-slides.forEach((_,i) => { const d = document.createElement("span"); if(i===0) d.className="on"; d.onclick = () => go(i,true); dotsBox.appendChild(d); });
-const dots = [...dotsBox.children];
-let cur = 0, timer = setInterval(() => go(cur+1), 6000);
-function go(i, manual){
-  cur = (i + slides.length) % slides.length;
-  slides.forEach((s,k) => s.classList.toggle("on", k===cur));
-  dots.forEach((d,k) => d.classList.toggle("on", k===cur));
-  if(manual){ clearInterval(timer); timer = setInterval(() => go(cur+1), 6000); }
+let spTimer = null, spCur = 0;
+function renderSponsors(){
+  const rows = DATA.Sponsors || [];
+  const track = document.getElementById("spTrack");
+  const dotsBox = document.getElementById("spDots");
+  const bar = document.querySelector(".sponsor");
+  if(!rows.length){ bar.style.display = "none"; document.body.style.paddingBottom = "16px"; return; }
+  bar.style.display = ""; document.body.style.paddingBottom = "";
+  const labelRow = rows.find(r => r.label && String(r.label).trim());
+  if(labelRow) document.querySelector(".sp-label").textContent = labelRow.label;
+  track.innerHTML = rows.map((r,i) => `
+    <div class="slide${i===0?" on":""}">
+      <div class="t">${esc(r.title)}</div>
+      ${r.message ? `<div class="d">${esc(r.message)}</div>` : ""}
+      ${r.link ? `<div class="sp-btns"><a class="sp-btn" href="${esc(r.link)}" target="_blank" rel="noopener">${esc(r.buttontext || "Learn more")}</a></div>` : ""}
+    </div>`).join("");
+  dotsBox.innerHTML = "";
+  const slides = [...track.children];
+  slides.forEach((_,i) => { const d = document.createElement("span"); if(i===0) d.className="on"; d.onclick = () => spGo(i,true); dotsBox.appendChild(d); });
+  spCur = 0;
+  clearInterval(spTimer);
+  if(slides.length > 1) spTimer = setInterval(() => spGo(spCur+1), 6000);
 }
+function spGo(i, manual){
+  const slides = [...document.getElementById("spTrack").children];
+  const dots = [...document.getElementById("spDots").children];
+  if(!slides.length) return;
+  spCur = (i + slides.length) % slides.length;
+  slides.forEach((s,k) => s.classList.toggle("on", k===spCur));
+  dots.forEach((d,k) => d.classList.toggle("on", k===spCur));
+  if(manual){ clearInterval(spTimer); spTimer = setInterval(() => spGo(spCur+1), 6000); }
+}
+renderSponsors();
 
 /* ---------- Init ---------- */
 renderAll();
