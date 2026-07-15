@@ -147,7 +147,7 @@
   </div>
   <h1>APSON 2026 · 25th AGM</h1>
   <p class="sub">25th Annual General Meeting &amp; Scientific Conference of the Association of Paediatric Surgeons of Nigeria — hosted by ATBUTH, Bauchi</p>
-  <p class="meta" id="eventMeta">23 – 26 September 2026 · Modular Theater, ATBUTH, Bauchi</p>
+  <p class="meta" id="eventMeta">23 – 26 September 2026 · International Conference Centre (ICC), Bauchi</p>
 </header>
 
 <div class="announce" id="announceBar" style="display:none">
@@ -172,7 +172,7 @@
     <p class="welcome-p">Everything you need for APSON Bauchi 2026 — the live programme, abstract book, venue &amp; travel information, and real-time announcements.</p>
     <div class="card-grid">
       <div class="info-card"><h3>📅 Dates</h3><p>23rd – 26th September 2026 (Pre-conference workshop: 22nd – 23rd)</p></div>
-      <div class="info-card"><h3>📍 Venue</h3><p>Modular Theater, Abubakar Tafawa Balewa University Teaching Hospital (ATBUTH), Bauchi</p></div>
+      <div class="info-card"><h3>📍 Venue</h3><p>International Conference Centre (ICC), Bauchi — pre-conference workshop at Modular Theater, ATBUTH</p></div>
       <div class="info-card"><h3>🎯 Theme</h3><p id="confTheme">Advancing Paediatric Surgical Care in Nigeria: Innovation and Best Practices (sub-themes: Paediatric Trauma; Paediatric Surgical Infections)</p></div>
       <div class="info-card"><h3>☎️ Enquiries</h3><p id="confContact">Dr. Kefas John Bwala, LOC Chairman — 0806 211 2679</p></div>
     </div>
@@ -254,20 +254,20 @@
    Sponsors:     label | title | message | buttontext | link   (one row per slide; label on any row sets the strip caption; empty tab hides the sponsor bar)
    Note: Info rows with heading "Theme" or "Enquiries" also fill the Home tab cards.
 ===================================================================== */
-const SHEET_ID = "1UIijnGiRUM5qIN9d567Z7-lXYCvBmTpwSUItBtsFyS4";   // <-- paste your Google Sheet ID here
+const SHEET_ID = "";   // <-- paste your Google Sheet ID here
 
 /* ---------- Sample data (replaced by the Sheet when connected) ---------- */
 const SAMPLE = {
   Agenda: [
     {day:"Tue 22", time:"08:00 – 16:00", title:"Pre-conference Workshop: Transanal Pull-through for Hirschsprung Disease (Day 1)", speaker:"", venue:"Modular Theater, ATBUTH", category:"Workshop"},
     {day:"Wed 23", time:"08:00 – 14:00", title:"Pre-conference Workshop: Transanal Pull-through for HD (Day 2)", speaker:"", venue:"Modular Theater, ATBUTH", category:"Workshop"},
-    {day:"Wed 23", time:"10:00 – 18:00", title:"Arrival of Delegates & Registration", speaker:"", venue:"ATBUTH, Bauchi", category:"General"},
-    {day:"Thu 24", time:"09:00 – 10:30", title:"Opening Ceremony", speaker:"", venue:"Modular Theater", category:"Plenary"},
-    {day:"Thu 24", time:"11:00 – 12:00", title:"Keynote: What the Theater Doesn't Teach You — Insights from a Career in Surgical Education", speaker:"Prof. Ben Nwomeh", venue:"Modular Theater", category:"Keynote"},
+    {day:"Wed 23", time:"10:00 – 18:00", title:"Arrival of Delegates & Registration", speaker:"", venue:"ICC, Bauchi", category:"General"},
+    {day:"Thu 24", time:"09:00 – 10:30", title:"Opening Ceremony", speaker:"", venue:"ICC Main Hall", category:"Plenary"},
+    {day:"Thu 24", time:"11:00 – 12:00", title:"Keynote: What the Theater Doesn't Teach You — Insights from a Career in Surgical Education", speaker:"Prof. Ben Nwomeh", venue:"ICC Main Hall", category:"Keynote"},
     {day:"Thu 24", time:"14:00 – 16:30", title:"Scientific Session I", speaker:"", venue:"", category:"Scientific"},
-    {day:"Fri 25", time:"09:00 – 10:00", title:"Keynote II: Artificial Intelligence in Pediatric Surgery — How I Do It", speaker:"Prof. Ben Nwomeh", venue:"Modular Theater", category:"Keynote"},
-    {day:"Fri 25", time:"10:00 – 11:00", title:"Guest Lecture: A Child, the White Coat and a Scalpel; Where Is the Doctor?", speaker:"Prof. Stephen Obaro", venue:"Modular Theater", category:"Lecture"},
-    {day:"Fri 25", time:"11:00 – 12:00", title:"Guest Lecture: Building Excellence in Paediatric Surgery among Nigerian Resident Doctors", speaker:"Prof. Lukman O. Abdur-Rahman", venue:"Modular Theater", category:"Lecture"},
+    {day:"Fri 25", time:"09:00 – 10:00", title:"Keynote II: Artificial Intelligence in Pediatric Surgery — How I Do It", speaker:"Prof. Ben Nwomeh", venue:"ICC Main Hall", category:"Keynote"},
+    {day:"Fri 25", time:"10:00 – 11:00", title:"Guest Lecture: A Child, the White Coat and a Scalpel; Where Is the Doctor?", speaker:"Prof. Stephen Obaro", venue:"ICC Main Hall", category:"Lecture"},
+    {day:"Fri 25", time:"11:00 – 12:00", title:"Guest Lecture: Building Excellence in Paediatric Surgery among Nigerian Resident Doctors", speaker:"Prof. Lukman O. Abdur-Rahman", venue:"ICC Main Hall", category:"Lecture"},
     {day:"Fri 25", time:"12:00 – 14:00", title:"Scientific Session II", speaker:"", venue:"", category:"Scientific"},
     {day:"Fri 25", time:"14:30 – 17:00", title:"APSON AGM", speaker:"", venue:"", category:"AGM"},
     {day:"Fri 25", time:"19:00 – 22:00", title:"Conference Dinner", speaker:"", venue:"", category:"Social"},
@@ -283,12 +283,12 @@ const SAMPLE = {
     {code:"ABS-001", title:"Accepted abstracts will be listed here after 31st July, 2026", authors:""}
   ],
   Info: [
-    {heading:"Venue", details:"Modular Theater, Abubakar Tafawa Balewa University Teaching Hospital (ATBUTH), Bauchi."},
+    {heading:"Venue", details:"Main conference: International Conference Centre (ICC), Bauchi. Pre-conference workshop: Modular Theater, ATBUTH, Bauchi."},
     {heading:"Theme", details:"Advancing Paediatric Surgical Care in Nigeria: Innovation and Best Practices. Sub-themes: Paediatric Trauma; Paediatric Surgical Infections."},
     {heading:"Enquiries", details:"Dr. Kefas John Bwala, LOC Chairman — 0806 211 2679"},
     {heading:"Pre-conference Workshop", details:"Transanal Pull-through for Hirschsprung Disease — 22nd & 23rd September, Modular Theater, ATBUTH. Workshop fee: N50,000."},
-    {heading:"Arriving by Air", details:"Fly into Sir Abubakar Tafawa Balewa International Airport, Bauchi. Taxis are available at arrivals (agree the fare before you set off); the drive to ATBUTH takes roughly 30-40 minutes. LOC airport pickup and shuttle arrangements will be announced here."},
-    {heading:"Getting to the Venue", details:"The Modular Theater is within the ATBUTH main complex, Bauchi. Enter through the main hospital gate and follow the conference signage - ushers will direct delegates on conference days."},
+    {heading:"Arriving by Air", details:"Fly into Sir Abubakar Tafawa Balewa International Airport, Bauchi. Taxis are available at arrivals (agree the fare before you set off); the drive into Bauchi town takes roughly 30-40 minutes. LOC airport pickup and shuttle arrangements will be announced here."},
+    {heading:"Getting to the Venue", details:"Main conference: International Conference Centre (ICC), Bauchi - follow conference signage; ushers will direct delegates. Workshop (22nd-23rd): Modular Theater, inside the ATBUTH main complex - enter through the main hospital gate."},
     {heading:"Abstract Submission", details:"Max 300 words, structured format (Background, Methods, Results, Conclusion); no figures, tables or references. Include title, authors with affiliations, presenting author's email and WhatsApp number. Email: apsonconferencebauchi2026@gmail.com. Deadline: 15th July, 2026. Notification of acceptance: 31st July, 2026."},
     {heading:"Online Registration", details:"Register at: https://forms.gle/NWZvErhCvBe55nqv6"},
     {heading:"Registration Fees", details:"Early bird (until 31st July): Fellows N70,000 | Residents N40,000 | Nurses & Others N30,000. From 1st August: Fellows N90,000 | Residents N50,000 | Nurses & Others N40,000."},
